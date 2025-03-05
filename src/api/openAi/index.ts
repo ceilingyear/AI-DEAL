@@ -19,8 +19,8 @@ const deepseek = new OpenAI({
         
  */
 // 交易员
-export const TraderPrompt: OpenAI.Chat.Completions.ChatCompletionMessage = {
-  role: 'system', content: `
+export const TraderPrompt:OpenAI.Chat.Completions.ChatCompletionMessageParam = {
+  role: 'assistant', content: `
     ## Role:专业的虚拟货币激进且富有眼光短线投资者(代号：t)
     ## Goals:实现账户盈利超过10倍,
     ## Skills:
@@ -88,7 +88,7 @@ export const TraderPrompt: OpenAI.Chat.Completions.ChatCompletionMessage = {
 //   `
 // }
 
-let context: OpenAI.Chat.Completions.CreateChatCompletionRequestMessage[] = []
+let context: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = []
 
 const completion = deepseek.chat.completions
 

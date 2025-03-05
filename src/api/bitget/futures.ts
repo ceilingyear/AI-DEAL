@@ -10,13 +10,13 @@ function header({ method, requestPath, queryString, body }: { method: 'GET' | 'P
   const sign = crypto.enc.Base64.stringify(hmac)
 
   return {
-    // "Content-Type": "application/json",
+    "Content-Type": "application/json",
     'ACCESS-KEY': bitgetConfig.APIKEY,
     'ACCESS-SIGN': sign,
-    'ACCESS-TIMESTAMP': Date.now().toString(),
+    'ACCESS-TIMESTAMP': Math.round(+new Date()),
     'ACCESS-PASSPHRASE': bitgetConfig.PASSPHRASE,
     locale: 'zh-CN',
-
+    paptrading:1,
   }
 }
 
