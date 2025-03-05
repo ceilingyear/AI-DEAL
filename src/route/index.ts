@@ -1,6 +1,5 @@
 import { Routes, createRoute } from "../utils/route";
-import { getFeat } from "./getFeat";
-import {getSpotList} from "./getSpotList";
+import { getSpotList,getFeat } from "@/route/bitgetAPI/index";
 
 const routes: Routes[] = [
   {
