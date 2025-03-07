@@ -58,3 +58,100 @@ interface FeatureCoin {
   offTime: string;
   limitOpenTime: string;
 }
+
+interface MyOrders {
+  marginCoin: string;
+  symbol: string;
+  holdSide: string;
+  openDelegateSize: string;
+  marginSize: string;
+  available: string;
+  locked: string;
+  total: string;
+  leverage: string;
+  achievedProfits: string;
+  openPriceAvg: string;
+  marginMode: string;
+  posMode: string;
+  unrealizedPL: string;
+  liquidationPrice: string;
+  keepMarginRate: string;
+  markPrice: string;
+  marginRatio: string;
+  breakEvenPrice: string;
+  totalFee: string;
+  deductedFee: string;
+  grant: string;
+  assetMode: string;
+  autoMargin: string;
+  takeProfit: string;
+  stopLoss: string;
+  takeProfitId: string;
+  stopLossId: string;
+  cTime: string;
+  uTime: string;
+}
+
+interface Account {
+  marginCoin: string;
+  locked: string;
+  available: string;
+  crossedMaxAvailable: string;
+  isolatedMaxAvailable: string;
+  maxTransferOut: string;
+  accountEquity: string;
+  usdtEquity: string;
+  btcEquity: string;
+  crossedRiskRate: string;
+  unrealizedPL: string;
+  coupon: string;
+  unionTotalMagin: string;
+  unionAvailable: string;
+  unionTotalMargin: string;
+  unionMm: string;
+  assetList: AssetList[];
+  isolatedMargin: string;
+  crossedMargin: string;
+  crossedUnrealizedPL: string;
+  isolatedUnrealizedPL: string;
+  assetMode: string;
+}
+
+interface AssetList {
+  coin: string;
+  balance: string;
+}
+
+interface OrderPending {
+  symbol: string;
+  size: string;
+  orderId: string;
+  clientOid: string;
+  baseVolume: string;
+  fee: string;
+  price: string;
+  priceAvg: string;
+  status: string;
+  side: string;
+  force: string;
+  totalProfits: string;
+  posSide: string;
+  marginCoin: string;
+  quoteVolume: string;
+  leverage: string;
+  marginMode: string;
+  enterPointSource: string;
+  tradeSide: string;
+  posMode: string;
+  orderType: string;
+  orderSource: string;
+  presetStopSurplusPrice: string;
+  presetStopSurplusExecutePrice: string;
+  presetStopSurplusTriggerType: string;
+  presetStopLossPrice: string;
+  presetStopLossExecutePrice: string;
+  presetStopLossTriggerType: string;
+  reduceOnly: string;
+  cTime: string;
+  uTime: string;
+}

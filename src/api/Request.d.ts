@@ -22,7 +22,8 @@ interface AIRes  {
   "to":Roles, // 需要将信息传达给谁，输入代号即可
   "message":string, //只有type === "member"时有效，代表你需要传达的信息
   "deal"?:Deal,
-  leverage?:string, // 杠杆倍数
+  leverage?:SetAverage, // 杠杆倍数
+  close?:CloseOrder // 平仓
 }
 
 interface Deal { 
@@ -34,8 +35,17 @@ interface Deal {
   "tradeSide"?:string,//交易类型(仅限双向持仓)双向持仓模式下必填，单向持仓时不要填，否则会报错
   "orderType":"limit" | "market", // 交易类型
   "price"?:string, // 下单价格(市价时不传)
-  "amount":string, // 交易数量
   "presetTakeProfitPrice"?:string, // 预设止盈价格
-  "presetStopLossPrice"?:string, // 预设止损价格
-  "reason":string // 下单原因
+  "presetStopLossPrice"?:string, // 预设止损价格 
+}
+
+interface SetAverage {
+  symbol: string;
+  leverage: string;
+  holdSide: "long" | "short";
+}
+
+interface CloseOrder {
+  symbol: string;
+  holdSide: string;
 }

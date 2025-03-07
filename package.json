@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon --watch src/ -e ts --exec ts-node --files ./src/index.ts",
+    "dev": "nodemon --watch src/ -e ts --exec ts-node --files ./src/index.ts",
+    "start": "ts-node --files ./src/index.ts",
     "build": "webpack"
   },
   "dependencies": {
@@ -15,7 +16,7 @@
     "mysql": "^2.18.1",
     "node-rsa": "^1.1.1",
     "nodemon": "^3.0.2",
-    "openai": "^4.0.0-beta.12",
+    "openai": "^4.86.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },

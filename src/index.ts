@@ -5,7 +5,7 @@ import mysql from "mysql";
 import startApp from "./app";
 
 const cors = require("cors");
-
+export const srcPath = __dirname
 export const app = express();
 app.use(cors()).use(express.json());
 
@@ -25,11 +25,8 @@ process.on('uncaughtException',(err)=>{
 
 app.listen(2000, () => {
   console.log("服务启动成功！server: http://localhost:2000");
-  try {
+  startApp();
+  setInterval(() => {
     startApp();
-  } catch (error) {
-    console.log(error);
-    
-    startApp();
-  }
+  }, 1000 * 60 * 15);
 });
