@@ -67,3 +67,9 @@ export function orderPending() {
     headers: header({ method: 'GET', requestPath: '/api/v2/mix/order/orders-pending', data: {productType} }),
   });
 }
+// 取消委托
+export function cancelOrder(data:CancelOrder) {
+  return post<RequestType<any>>("/api/v2/mix/order/cancel-order", {productType,...data}, {
+    headers: header({ method: 'POST', requestPath: '/api/v2/mix/order/cancel-order', data: {productType, ...data} }),
+  });
+}

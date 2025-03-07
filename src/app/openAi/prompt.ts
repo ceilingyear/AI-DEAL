@@ -43,6 +43,13 @@ export const TraderPrompt: OpenAI.Chat.Completions.ChatCompletionMessageParam = 
           symbol: string; //交易币对
           holdSide: "long" | "short", // 持仓方向;
         },
+        cancelOrder?:{ // 代表你要撤单，取消某个挂单
+          symbol: string; //交易币对
+          marginCoin?: string; // 保证金币种
+          orderId?:string; //订单id orderId和clientOid必需提供一个。
+若都存在则以orderId为准。
+          clientOid?:string; //自定义订单id
+        }
         deal?:{ // 代表你需要下单的交易
           "symbol":string, // 交易对
           "side":"buy" | "sell", // 交易方向

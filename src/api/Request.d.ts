@@ -24,6 +24,7 @@ interface AIRes  {
   "deal"?:Deal,
   leverage?:SetAverage, // 杠杆倍数
   close?:CloseOrder // 平仓
+  cancelOrder?:CancelOrder
 }
 
 interface Deal { 
@@ -48,4 +49,11 @@ interface SetAverage {
 interface CloseOrder {
   symbol: string;
   holdSide: string;
+}
+
+interface CancelOrder {
+  symbol: string;
+  marginCoin?: string;
+  orderId?:string;
+  clientOid?:string;
 }
