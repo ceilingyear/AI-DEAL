@@ -2,7 +2,7 @@ import { getAccount, getKlineFutures, getOrders, orderPending } from "@/api/bitg
 import { accountTData, KLineTData, orderPendingTData, orderTData } from "@/utils/data"
 export const BITGET_BASE_CONFIG = {
   "symbol": "BTCUSDT",
-  "granularity": "4H",
+  "granularity": "1H",
 }
 // k线信息
 export async function KLineToAI() {
@@ -11,7 +11,6 @@ export async function KLineToAI() {
   if (res?.data) {
     return Promise.resolve(res?.data.map(item => (KLineTData(item))))
   }
-  return Promise.reject('k线获取失败')
 }
 // 订单信息
 export async function orderToAI() {
@@ -19,7 +18,6 @@ export async function orderToAI() {
   if (res?.data) {
     return Promise.resolve( res?.data.map(item => (orderTData(item))))
   }
-  return Promise.reject('订单信息获取失败')
 }
 // 账户信息
 export async function accountToAI() {
@@ -27,13 +25,11 @@ export async function accountToAI() {
   if (res?.data) {
     return Promise.resolve( res?.data.map(item => (accountTData(item))))
   }
-  return Promise.reject('账户信息获取失败')
 }
 // 挂单信息
 export async function orderPendingToAI() {
   const res = await orderPending()
-  if (res?.data) {
+  if (res?.data && res.data.entrustedList) {
     return Promise.resolve( res?.data.entrustedList.map(item => (orderPendingTData(item))))
   }
-  return Promise.reject('挂单信息获取失败')
 }

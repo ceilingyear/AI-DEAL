@@ -11,6 +11,9 @@ ${str}
     fs.writeFileSync(__dirname + '/log.txt', file)
   } catch (error) {
     console.log(error);
-
+    fs.writeFileSync(__dirname + '/log.txt', `
+      ----- ${dayjs().format('YYYY-MM-DD HH:mm:ss')} -----
+      ${str}
+      `)
   }
 }

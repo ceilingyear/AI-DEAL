@@ -5,6 +5,7 @@ import fs from 'fs';
 import OpenAI from 'openai';
 import { TraderPrompt } from './prompt';
 import { tools } from './fnCall';
+import { getContext } from '@/utils';
 
 const deepseek = new OpenAI({
   baseURL: 'https://api.deepseek.com',
@@ -15,9 +16,10 @@ const completion = deepseek.chat.completions
 
 let load: ReturnType<typeof loading>
 
-export async function createTraderMsg(msg: string,context:(OpenAI.Chat.Completions.ChatCompletionMessageParam & {timestamp:number})[]=[]) {
+export async function createTraderMsg(msg: string) {
   try {
     load = loading()
+    const context = getContext()
     const newMsg = await completion.create({
       messages: [TraderPrompt, ...context, { role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
     })

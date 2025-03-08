@@ -25,7 +25,7 @@ export default async function startApp() {
       "当前账户": symbolData.account,
       "当前挂单数据": symbolData.pending,
     }));
-    const context = getContext()
+    
     const aiRes = await createTraderMsg(JSON.stringify({
       "交易对": BITGET_BASE_CONFIG.symbol,
       "周期": BITGET_BASE_CONFIG.granularity,
@@ -33,11 +33,10 @@ export default async function startApp() {
       "当前挂单数据": symbolData.pending,
       "当前账户": symbolData.account,
       "k线数据": symbolData.kData
-    }), context)
-    toTrade(aiRes)
+    }))
+    await toTrade(aiRes)
   } catch (error) {
-    console.log(error);
-
+    // startApp()
     log(JSON.stringify({
       "错误": error
     }))

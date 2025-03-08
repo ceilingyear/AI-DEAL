@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import fs from "fs";
 import OpenAI from "openai";
+import { srcPath } from "..";
 /**
  * 计算平均值,均线
  * @param data  数据源
@@ -55,7 +56,7 @@ export function getAmplitude(data: GetBitgetKline_spotsRes[]): number {
 }
 
 export function getContext() {
-  const file = fs.readFileSync(__dirname + '/openAi/context.txt', 'utf-8')
+  const file = fs.readFileSync(srcPath + '/app/openAi/context.txt', 'utf-8')
   let context: (OpenAI.Chat.Completions.ChatCompletionMessageParam & { timestamp: number })[] = !file ? [] : JSON.parse(file)
   return context
 }
