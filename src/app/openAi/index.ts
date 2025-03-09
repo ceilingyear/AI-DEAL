@@ -19,7 +19,7 @@ let load: ReturnType<typeof loading>
 export async function createTraderMsg(msg: string) {
   try {
     load = loading()
-    const context = getContext()
+    const context = getContext()    
     const newMsg = await completion.create({
       messages: [TraderPrompt, ...context, { role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
     })
