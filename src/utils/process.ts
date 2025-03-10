@@ -1,5 +1,5 @@
 // 加载中
-export function loading() {
+export function loading(text:string = '模型推理中') {
     // 定义旋转字符数组
   const spinnerChars = ['|', '/', '-', '\\'];
   let index = 0;
@@ -10,7 +10,7 @@ export function loading() {
     // 将光标移动到行首
     process.stdout.cursorTo(0);
     // 输出当前旋转字符
-    process.stdout.write(spinnerChars[index]+' 模型推理中...');
+    process.stdout.write(spinnerChars[index]+` ${text}...`);
     // 更新索引
     index = (index + 1) % spinnerChars.length;
   }, 200);

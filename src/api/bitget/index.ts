@@ -8,12 +8,12 @@ const agent = new https.Agent({
 
 const bitgetAxios = axios.create({
   baseURL: 'https://api.bitget.com',
-  proxy: {
-    host: '127.0.0.1',
-    port: 7897,  // 与 Clash 的 HTTP 代理端口一致（默认 7890）
-    protocol: 'http'
-  },
-  httpsAgent:agent
+  // proxy: {
+  //   host: '127.0.0.1',
+  //   port: 7897,  // 与 Clash 的 HTTP 代理端口一致（默认 7890）
+  //   protocol: 'http'
+  // },
+  // httpsAgent:agent
 })
 
 export function post<K>(url: string, data?: any, option?: AxiosRequestConfig<any>) {

@@ -3,8 +3,8 @@ type KLineSpotPeriod = '1min' | '5min' | '15min' | '30min' | '1h' | '4h' | '6h' 
 interface GetKLine_futures {
   symbol: string;
   granularity: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
   kLineType?: string;
   limit?: string;
 }

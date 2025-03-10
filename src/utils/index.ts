@@ -56,7 +56,7 @@ export function getAmplitude(data: GetBitgetKline_spotsRes[]): number {
 }
 
 export function getContext() {
-  const file = fs.readFileSync(srcPath + '/app/openAi/context.txt', 'utf-8')
+  const file = fs.readFileSync(srcPath + '/app/Ai/context.txt', 'utf-8')
   let context: (OpenAI.Chat.Completions.ChatCompletionMessageParam & { timestamp: number })[] = !file ? [] : JSON.parse(file)
   return context
 }
