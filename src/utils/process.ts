@@ -19,7 +19,7 @@ export function loading(text:string = '模型推理中') {
       clearInterval(intervalId);
       process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
-      console.log(msg ??'推理完成');
+      console.log(msg ?? '推理完成');
     }
   }
 }

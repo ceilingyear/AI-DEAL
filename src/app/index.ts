@@ -16,30 +16,38 @@ export const BITGET_BASE_CONFIG = {
 
 export default async function startApp() {
   try {
+    const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
+    const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
+    const w1 = await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG})
+    const m1 = await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG})
     const symbolData = {
       kData:{
-        "4H": await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG}),
-        "1D": await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG}),
-        "1W": await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG}),
-        "1M": await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG}),
+        "4H数据":h4,
+        "1D数据":h1,
+        "1W数据": w1?.slice(w1.length - 52, w1.length),
+        "1M数据": m1?.slice(m1.length - 36, m1.length),
       },
       order:await orderToAI(),
       account:await accountToAI(),
       pending:await orderPendingToAI()
     }
     const news = await createNewsMsg(`分析一下关于${BITGET_BASE_CONFIG.symbol}的新闻`) 
-    const assist = createTraderAssistMsg(JSON.stringify({
+    const assist = await createTraderAssistMsg(JSON.stringify({
       "K线数据": symbolData.kData,
     }))
-    const aiRes = await createTraderMsg(JSON.stringify({
+    const inData = {
       "交易对": BITGET_BASE_CONFIG.symbol,
       "当前仓位数据": symbolData.order,
       "当前挂单数据": symbolData.pending,
       "当前账户": symbolData.account,
       "k线数据": symbolData.kData,
-      "新闻": news,
-      "趋势分析": assist,
-    }))
+      "团队":{
+        "新闻分析员的分析结果": news,
+        "趋势分析员的分析结果": assist,
+      }
+    }
+    log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏"}))
+    const aiRes = await createTraderMsg(JSON.stringify(inData))
     await toTrade(aiRes)
   } catch (error) {
     console.log(error);

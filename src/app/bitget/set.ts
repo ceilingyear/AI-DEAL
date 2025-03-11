@@ -16,8 +16,6 @@ export default async function toTrade(aiRes: string | null,) {
     const AIResponse: AIRes[] = JSON.parse(aiRes)
 
     for (const item of AIResponse) {
-      console.log(item);
-      
       if (item.cancelOrder) {
         const res = await cancelOrder(item.cancelOrder)
         if (res.code != '00000') Promise.reject(res)
@@ -35,7 +33,7 @@ export default async function toTrade(aiRes: string | null,) {
         if (res.code != '00000') Promise.reject(res)
       }
     }
-    fs.writeFileSync(srcPath + '/app/openAi/context.txt', JSON.stringify(context))
+    fs.writeFileSync(srcPath + '/app/Ai/context.txt', JSON.stringify(context))
   } catch (error) {
     return Promise.reject(error)
   }

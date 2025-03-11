@@ -41,7 +41,7 @@ export async function createNewsMsg(msg: string) {
     const newMsg = await completion.create({
       messages: [NewsPrompt, { role: 'user', content: msg }], model: 'deepseek-chat', temperature: 0.3,
     })
-    load.stop()
+    load.stop("新闻分析完成")
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {
     load.stop("新闻分析失败")
@@ -57,7 +57,7 @@ export async function createTraderAssistMsg(msg: string) {
     })
     console.log(newMsg.choices[0].message.content);
     
-    load.stop()
+    load.stop("趋势分析完成")
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {
     load.stop("趋势分析失败")
