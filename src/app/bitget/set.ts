@@ -11,7 +11,7 @@ export default async function toTrade(aiRes: string | null,) {
     context.push({ role: 'user', content: "请给我相关投资建议", timestamp: Date.now() })
     context.push({ role: 'assistant', content: aiRes, timestamp: Date.now() })
     if (context.length > 20) {
-      context = context.slice(context.length - 20,context.length)
+      context = context.slice(context.length - 5,context.length)
     }
     const AIResponse: AIRes[] = JSON.parse(aiRes)
 

@@ -31,7 +31,7 @@ export default async function startApp() {
       account:await accountToAI(),
       pending:await orderPendingToAI()
     }
-    const news = await createNewsMsg(`分析一下关于${BITGET_BASE_CONFIG.symbol}的新闻`) 
+    const news = await createNewsMsg(`帮我查询一下今日关于${BITGET_BASE_CONFIG.symbol}的新闻并分析一下`) 
     const assist = await createTraderAssistMsg(JSON.stringify({
       "K线数据": symbolData.kData,
     }))
@@ -46,7 +46,7 @@ export default async function startApp() {
         "趋势分析员的分析结果": assist,
       }
     }
-    log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏"}))
+    log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
     const aiRes = await createTraderMsg(JSON.stringify(inData))
     await toTrade(aiRes)
   } catch (error) {
