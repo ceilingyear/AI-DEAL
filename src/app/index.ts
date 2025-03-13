@@ -11,7 +11,7 @@ import toTrade from "./bitget/set";
 import { getContext } from "@/utils";
 
 export const BITGET_BASE_CONFIG = {
-  "symbol": "BTCUSDT",
+  "symbol": "BGBUSDT",
 }
 
 export default async function startApp() {
@@ -31,7 +31,7 @@ export default async function startApp() {
       account:await accountToAI(),
       pending:await orderPendingToAI()
     }
-    const news = await createNewsMsg(`帮我查询一下今日关于${BITGET_BASE_CONFIG.symbol}的新闻并分析一下`) 
+    // const news = await createNewsMsg(`帮我查询一下今日关于${BITGET_BASE_CONFIG.symbol}的新闻并分析一下`) 
     const assist = await createTraderAssistMsg(JSON.stringify({
       "K线数据": symbolData.kData,
     }))
@@ -42,7 +42,7 @@ export default async function startApp() {
       "当前账户": symbolData.account,
       "k线数据": symbolData.kData,
       "团队":{
-        "新闻分析员的分析结果": news,
+        // "新闻分析员的分析结果": news,
         "趋势分析员的分析结果": assist,
       }
     }
