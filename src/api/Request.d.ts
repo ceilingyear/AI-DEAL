@@ -57,3 +57,37 @@ interface CancelOrder {
   orderId?:string;
   clientOid?:string;
 }
+
+interface ContractType {
+  symbol: string;
+  baseCoin: string;
+  quoteCoin: string;
+  buyLimitPriceRatio: string;
+  sellLimitPriceRatio: string;
+  feeRateUpRatio: string;
+  makerFeeRate: string;
+  takerFeeRate: string;
+  openCostUpRatio: string;
+  supportMarginCoins: string[];
+  minTradeNum: string;
+  priceEndStep: string;
+  volumePlace: string;
+  pricePlace: string;
+  sizeMultiplier: string;
+  symbolType: string;
+  minTradeUSDT: string;
+  maxSymbolOrderNum: string;
+  maxProductOrderNum: string;
+  maxPositionNum: string;
+  symbolStatus: string;
+  offTime: string;
+  limitOpenTime: string;
+  deliveryTime: string;
+  deliveryStartTime: string;
+  launchTime: string;
+  fundInterval: string;
+  minLever: string;
+  maxLever: string;
+  posLimit: string;
+  maintainTime: string;
+}

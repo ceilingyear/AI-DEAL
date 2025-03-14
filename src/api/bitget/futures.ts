@@ -73,3 +73,9 @@ export function cancelOrder(data:CancelOrder) {
     headers: header({ method: 'POST', requestPath: '/api/v2/mix/order/cancel-order', data: {productType, ...data} }),
   });
 }
+// 获取合约信息
+export function contracts(data:{symbol:string}) {
+  return get<RequestType<ContractType[]>>("/api/v2/mix/market/contracts", {productType,...data}, {
+    headers: header({ method: 'GET', requestPath: '/api/v2/mix/market/contracts', data: {productType, ...data} }),
+  });
+}
