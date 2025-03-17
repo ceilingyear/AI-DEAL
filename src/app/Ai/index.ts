@@ -25,7 +25,7 @@ export async function createTraderMsg(msg: string) {
       messages: [TraderPrompt, ...context, { role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
     })
     load.stop()
-    log("输出数据：\n" + newMsg.choices[0].message)
+    log("AI交易数据：\n" + newMsg.choices[0].message)
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {
     load.stop("推理失败")
@@ -40,7 +40,7 @@ export async function createNewsMsg(msg: string) {
       messages: [NewsPrompt, { role: 'user', content: msg }], model: 'deepseek-chat', temperature: 0.3,
     })
     load.stop("新闻分析完成")
-    log('新闻分析：\n'+newMsg.choices[0].message.content)
+    log('AI新闻分析：\n'+newMsg.choices[0].message.content)
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {
     load.stop("新闻分析失败")
@@ -54,7 +54,7 @@ export async function createTraderAssistMsg(msg: string) {
     const newMsg = await completion.create({
       messages: [TraderAssistPrompt,{ role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
     })
-    log('趋势分析：\n'+newMsg.choices[0].message.content)
+    log('AI趋势分析：\n'+newMsg.choices[0].message)
     load.stop("趋势分析完成")
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {

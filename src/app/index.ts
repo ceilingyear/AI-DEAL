@@ -1,15 +1,9 @@
 
-import { createNewsMsg, createTraderAssistMsg, createTraderMsg } from "@/app/Ai";
-import { bitgetConfig } from "@/setting";
-import { accountTData, KLineTData, orderPendingTData, orderTData } from "@/utils/data";
+import { createTraderAssistMsg, createTraderMsg } from "@/app/Ai";
 import { log } from "../../log";
-import OpenAI from "openai";
-import fs from "fs";
-import { srcPath } from "..";
 import { accountToAI, contractsToAI, KLineToAI, orderPendingToAI, orderToAI } from "./bitget/get";
 import toTrade from "./bitget/set";
-import { getContext } from "@/utils";
-import { contracts } from "@/api/bitget/futures";
+import { AItoNews } from "./news";
 
 export const BITGET_BASE_CONFIG = {
   "symbol": "BTCUSDT",
@@ -38,10 +32,10 @@ export default async function startApp() {
     if (symbolData.account && h1 && +symbolData.account[0].总可用 < +h1[h1?.length -1].收盘价 *.8) {
       return log('余额不足最新价的80%，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
-    // const news = await createNewsMsg(`帮我查询一下今日关于${BITGET_BASE_CONFIG.symbol}的新闻并分析一下`) 
     const assist = await createTraderAssistMsg(JSON.stringify({
       "K线数据": symbolData.kData,
     }))
+    const news = await AItoNews()
     const inData = {
       "当前数据交易对": BITGET_BASE_CONFIG.symbol,
       "当前仓位数据": symbolData.order,
@@ -50,14 +44,13 @@ export default async function startApp() {
       "k线数据": symbolData.kData,
       "合约信息": symbolData.contract,
       "团队":{
-        // "新闻分析员的分析结果": news,
+        "最近热门新闻查询结果": news,
         "趋势分析员的分析结果": assist,
       }
     }
     log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
     const aiRes = await createTraderMsg(JSON.stringify(inData))
     console.log(aiRes);
-    
     await toTrade(aiRes)
   } catch (error) {
     console.log(error);
