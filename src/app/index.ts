@@ -12,26 +12,31 @@ import { getContext } from "@/utils";
 import { contracts } from "@/api/bitget/futures";
 
 export const BITGET_BASE_CONFIG = {
-  "symbol": "BGBUSDT",
+  "symbol": "BTCUSDT",
 }
 
 export default async function startApp() {
   try {
-    const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
     const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
-    const w1 = await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG})
-    const m1 = await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG})
+    const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
+    const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
+    // const w1 = await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG,limit:'10'})
+    // const m1 = await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG,limit:'1'})
     const symbolData = {
       kData:{
+        "1H数据":h1,
         "4H数据":h4,
-        "1D数据":h1,
-        "1W数据": w1?.slice(w1.length - 52, w1.length),
-        "1M数据": m1?.slice(m1.length - 36, m1.length),
+        "1D数据":d1,
+        // "1W数据": w1,
+        // "1M数据": m1,
       },
       order:await orderToAI(),
       account:await accountToAI(),
       pending:await orderPendingToAI(),
       contract:await contractsToAI({...BITGET_BASE_CONFIG})
+    }
+    if (symbolData.account && h1 && +symbolData.account[0].总可用 < +h1[h1?.length -1].收盘价 *.8) {
+      return log('余额不足最新价的80%，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
     // const news = await createNewsMsg(`帮我查询一下今日关于${BITGET_BASE_CONFIG.symbol}的新闻并分析一下`) 
     const assist = await createTraderAssistMsg(JSON.stringify({
@@ -57,7 +62,9 @@ export default async function startApp() {
   } catch (error) {
     console.log(error);
     
-    // startApp()
+    setTimeout(() => {
+      startApp()
+    }, 1000 * 60 * 10);
     log(JSON.stringify({
       "错误": error
     }))

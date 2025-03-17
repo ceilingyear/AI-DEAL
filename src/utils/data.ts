@@ -15,3 +15,17 @@ export function orderTData(item: MyOrders) {
 export function orderPendingTData(item: OrderPending) {
   return { "币对名称": item.symbol, "保证金币种": item.marginCoin, "订单id": item.orderId, "当前委托待成交的数量(自定义订单id)": item.clientOid, "订单状态live: 未成交；partially_filled：部分成交": item.status, "委托数量": item.size, "交易币成交数量": item.baseVolume,  "杠杆倍数": item.leverage, "手续费": item.fee, "委托价格": item.price, "保证金模式": item.marginMode, "持仓模式": item.posMode, "平均成交价格": item.priceAvg, "开单方向buy 买，sell 卖": item.side, "持仓方向": item.posSide, "计价币成交数量": item.quoteVolume, "String	交易方向": item.tradeSide,  "是否只减仓": item.reduceOnly, "预设止盈值": item.presetStopSurplusPrice, "订单类型": item.orderType, "预设止盈执行价格": item.presetStopSurplusExecutePrice,  "预设止损值": item.presetStopLossPrice, "创建时间": item.cTime, "最近更新时间": item.uTime,"预设止损执行价格":item.presetStopLossExecutePrice }
 }
+
+// 处理当前合约信息
+export function contractsTData(item: ContractType) {
+  return {
+    "最小USDT交易额": item.minTradeUSDT,
+    "最小杠杆": item.minLever,
+    "最大杠杆": item.maxLever,
+    "数量小数位": item.volumePlace,
+    "价格小数位": item.pricePlace,
+    "买价限价比例": item.buyLimitPriceRatio,
+    "卖价限价比例": item.sellLimitPriceRatio,
+    "最小开单数量(基础币)": item.minTradeNum,
+  }
+}

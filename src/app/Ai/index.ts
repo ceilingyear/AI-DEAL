@@ -25,9 +25,7 @@ export async function createTraderMsg(msg: string) {
       messages: [TraderPrompt, ...context, { role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
     })
     load.stop()
-    log(JSON.stringify({
-      "输出": newMsg.choices[0].message,
-    }))
+    log("输出数据：\n" + newMsg.choices[0].message)
     return Promise.resolve(newMsg.choices[0].message.content)
   } catch (error) {
     load.stop("推理失败")

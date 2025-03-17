@@ -29,7 +29,7 @@ export async function orderPendingToAI() {
     return Promise.resolve( res?.data.entrustedList.map(item => (orderPendingTData(item))))
   }
 }
-// 挂单信息
+// 合约信息
 export async function contractsToAI(data:{symbol:string}) {
   const res = await contracts(data)
   if (res?.data && res.data.length > 0) {
