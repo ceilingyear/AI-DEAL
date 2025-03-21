@@ -1,5 +1,3 @@
-type DeepSeekModel = 'deepseek-chat' | 'deepseek-reasoner'
-
 // openai
 export const openAiConfig={
   key:'sk-aaacc1072f644cf6b388b1a7bca4e758',

@@ -28,5 +28,5 @@ app.listen(2000, () => {
   startApp();
   setInterval(() => {
     startApp();
-  }, 1000 * 60 * 60 * 6);
+  }, 1000 * 60 * 60 * 1);
 });

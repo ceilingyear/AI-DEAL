@@ -29,13 +29,13 @@ export default async function startApp() {
       pending:await orderPendingToAI(),
       contract:await contractsToAI({...BITGET_BASE_CONFIG})
     }
-    if (symbolData.account && h1 && +symbolData.account[0].总可用 < +h1[h1?.length -1].收盘价 *.8) {
-      return log('余额不足最新价的80%，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
+    if (symbolData.account && symbolData.order && +symbolData.account[0].总可用 < 2 && symbolData.order?.length > 0) {
+      return log('余额不足2U，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
     const assist = await createTraderAssistMsg(JSON.stringify({
       "K线数据": symbolData.kData,
     }))
-    const news = await AItoNews()
+    // const news = await AItoNews()
     const inData = {
       "当前数据交易对": BITGET_BASE_CONFIG.symbol,
       "当前仓位数据": symbolData.order,
@@ -44,20 +44,20 @@ export default async function startApp() {
       "k线数据": symbolData.kData,
       "合约信息": symbolData.contract,
       "团队":{
-        "最近热门新闻查询结果": news,
+        // "最近热门新闻查询结果": news,
         "趋势分析员的分析结果": assist,
       }
     }
     log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
     const aiRes = await createTraderMsg(JSON.stringify(inData))
-    console.log(aiRes);
     await toTrade(aiRes)
-  } catch (error) {
-    console.log(error);
-    
-    setTimeout(() => {
-      startApp()
-    }, 1000 * 60 * 10);
+  } catch (error:any) {
+    console.log(error?.message);
+    if (error?.message && error?.message.includes("Unexpected end of JSON input")) {
+      setTimeout(() => {
+        startApp()
+      }, 1000 * 60 * 5);
+    }
     log(JSON.stringify({
       "错误": error
     }))

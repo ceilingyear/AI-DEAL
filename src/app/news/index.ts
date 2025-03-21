@@ -10,7 +10,7 @@ export async function AItoNews() {
     const newsRes: NewsRes = await newsReq.v2.topHeadlines({
       q: BITGET_BASE_CONFIG.symbol,
       sortBy: "popularity",
-      pageSize: "50"
+      pageSize: "5"
     })
     const news = newsRes.articles.map(i => ({
       "来源": i.source,
