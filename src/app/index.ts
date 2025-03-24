@@ -8,9 +8,13 @@ import { AItoNews } from "./news";
 export const BITGET_BASE_CONFIG = {
   "symbol": "BTCUSDT",
 }
+let doing = false
+let timeout:any
 
 export default async function startApp() {
   try {
+    if (doing) return
+    doing = true
     const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
     const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
     const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
@@ -51,8 +55,14 @@ export default async function startApp() {
     log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
     const aiRes = await createTraderMsg(JSON.stringify(inData))
     await toTrade(aiRes)
+    doing = false
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      startApp()
+    },  1000 * 60 * 60 * 6);
   } catch (error:any) {
     console.log(error?.message);
+    doing = false
     if (error?.message && error?.message.includes("Unexpected end of JSON input")) {
       setTimeout(() => {
         startApp()

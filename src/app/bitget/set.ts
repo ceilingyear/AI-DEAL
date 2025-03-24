@@ -9,7 +9,7 @@ export default async function toTrade(aiRes: string | null, reTryUrl?: URL2ITEMK
   try {
 
     if (!aiRes) return Promise.reject('aiRes is undefined')
-    const AIResponse: AIRes[] = JSON.parse(aiRes)
+    let AIResponse: AIRes[] = JSON.parse(aiRes)
     // 如果有reTryUrl，说明是重试，直接重试
     if (reTryUrl) {
       const key = URL2ITEM[reTryUrl]
@@ -37,21 +37,21 @@ export default async function toTrade(aiRes: string | null, reTryUrl?: URL2ITEMK
     // if (context.length > 5) {
     //   context = context.slice(context.length - 6, context.length)
     // }
-
+    AIResponse = AIResponse.sort(i => i.leverage ? -1 : 1)
     for (const item of AIResponse) {
-      if (item.cancelOrder) {
+      if (item?.cancelOrder) {
         const res = await cancelOrder(item.cancelOrder)
         if (res.code != '00000') Promise.reject(res)
       }
-      if (item.leverage) {
+      if (item?.leverage) {
         const res = await setAverage(item.leverage)
         if (res.code != '00000') Promise.reject(res)
       }
-      if (item.deal) {
+      if (item?.deal) {
         const res = await toOrder(item.deal)
         if (res.code != '00000') Promise.reject(res)
       }
-      if (item.close) {
+      if (item?.close) {
         const res = await closeOrder(item.close)
         if (res.code != '00000') Promise.reject(res)
       }
@@ -64,7 +64,7 @@ export default async function toTrade(aiRes: string | null, reTryUrl?: URL2ITEMK
     // if (error?.message && error?.message.includes("Request failed with status code 400")) {
     //   setTimeout(() => {
     //     toTrade(aiRes, error?.config?.url)
-    //   }, 5 * 60 * 1000);
+    //   }, 1 * 60 * 1000);
     // }
     return Promise.reject(error)
   }
