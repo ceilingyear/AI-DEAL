@@ -25,8 +25,7 @@ export async function createTraderMsg(msg: string) {
     const newMsg = await completion.create({
       messages: [TraderPrompt, { role: 'user', content: msg }],
       model: deepSeekConfig.model,
-      temperature: 0.3,
-      max_tokens:6000
+      temperature: 0.2,
     })
     load.stop()
     log("AI交易数据：\n" + newMsg.choices[0].message.content + "\n详细" + JSON.stringify(newMsg.choices[0].message))

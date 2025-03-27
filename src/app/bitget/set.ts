@@ -11,26 +11,26 @@ export default async function toTrade(aiRes: string | null, reTryUrl?: URL2ITEMK
     if (!aiRes) return Promise.reject('aiRes is undefined')
     let AIResponse: AIRes[] = JSON.parse(aiRes)
     // 如果有reTryUrl，说明是重试，直接重试
-    if (reTryUrl) {
-      const key = URL2ITEM[reTryUrl]
-      const item = AIResponse.find(item => item[key])
-      if (key === 'cancelOrder' && item?.cancelOrder) {
-        const res = await cancelOrder(item.cancelOrder)
-      }
-      if (key === 'leverage' && item?.leverage) {
-        const res = await setAverage(item.leverage)
-        if (res.code != '00000') Promise.reject(res)
-      }
-      if (key === 'deal' && item?.deal) {
-        const res = await toOrder(item.deal)
-        if (res.code != '00000') Promise.reject(res)
-      }
-      if (key === 'close' && item?.close) {
-        const res = await closeOrder(item.close)
-        if (res.code != '00000') Promise.reject(res)
-      }
-      return
-    }
+    // if (reTryUrl) {
+    //   const key = URL2ITEM[reTryUrl]
+    //   const item = AIResponse.find(item => item[key])
+    //   if (key === 'cancelOrder' && item?.cancelOrder) {
+    //     const res = await cancelOrder(item.cancelOrder)
+    //   }
+    //   if (key === 'leverage' && item?.leverage) {
+    //     const res = await setAverage(item.leverage)
+    //     if (res.code != '00000') Promise.reject(res)
+    //   }
+    //   if (key === 'deal' && item?.deal) {
+    //     const res = await toOrder(item.deal)
+    //     if (res.code != '00000') Promise.reject(res)
+    //   }
+    //   if (key === 'close' && item?.close) {
+    //     const res = await closeOrder(item.close)
+    //     if (res.code != '00000') Promise.reject(res)
+    //   }
+    //   return
+    // }
     // let context = getContext()
     // context.push({ role: 'user', content: "请给我相关投资建议", timestamp: Date.now() })
     // context.push({ role: 'assistant', content: aiRes, timestamp: Date.now() })

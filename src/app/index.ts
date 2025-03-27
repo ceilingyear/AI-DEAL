@@ -34,6 +34,7 @@ export default async function startApp() {
       contract:await contractsToAI({...BITGET_BASE_CONFIG})
     }
     if (symbolData.account && symbolData.order && +symbolData.account[0].总可用 < 2 && symbolData.order?.length > 0) {
+      doing = false
       return log('余额不足2U，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
     const assist = await createTraderAssistMsg(JSON.stringify({
