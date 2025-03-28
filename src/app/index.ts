@@ -15,6 +15,11 @@ export default async function startApp() {
   try {
     if (doing) return
     doing = true
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      console.log('大于4h未执行，重新执行');
+      startApp()
+    }, 1000 * 60 * 4);
     const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
     const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
     const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
@@ -57,10 +62,6 @@ export default async function startApp() {
     const aiRes = await createTraderMsg(JSON.stringify(inData))
     await toTrade(aiRes)
     doing = false
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      startApp()
-    },  1000 * 60 * 60 * 6);
   } catch (error:any) {
     console.log(error?.message);
     doing = false

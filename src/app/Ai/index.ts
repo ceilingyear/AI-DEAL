@@ -55,7 +55,7 @@ export async function createTraderAssistMsg(msg: string) {
   try {
     load = loading("趋势分析中")
     const newMsg = await completion.create({
-      messages: [TraderAssistPrompt, { role: 'user', content: msg }], model: deepSeekConfig.model, temperature: 0.3,
+      messages: [TraderAssistPrompt, { role: 'user', content: msg }], model: getModel(), temperature: 0.3,
     })
     log('AI趋势分析：\n' + newMsg.choices[0].message.content+ "\n详细" + JSON.stringify(newMsg.choices[0].message))
     load.stop("趋势分析完成")
