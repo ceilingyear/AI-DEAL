@@ -11,15 +11,16 @@ export const BITGET_BASE_CONFIG = {
 let doing = false
 let timeout:any
 
-export default async function startApp() {
+export default async function startApp(verify = true) {
   try {
     if (doing) return
     doing = true
     clearTimeout(timeout)
     timeout = setTimeout(() => {
+      if (doing) return
       console.log('大于4h未执行，重新执行');
-      startApp()
-    }, 1000 * 60 * 4);
+      startApp(false)
+    }, 1000 * 60 * 60 * 4);
     const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
     const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
     const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
@@ -38,7 +39,7 @@ export default async function startApp() {
       pending:await orderPendingToAI(),
       contract:await contractsToAI({...BITGET_BASE_CONFIG})
     }
-    if (symbolData.account && symbolData.order && +symbolData.account[0].总可用 < 2 && symbolData.order?.length > 0) {
+    if (verify && symbolData.account && symbolData.order && +symbolData.account[0].总可用 < 2 && symbolData.order?.length > 0) {
       doing = false
       return log('余额不足2U，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
