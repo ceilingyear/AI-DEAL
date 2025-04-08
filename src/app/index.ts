@@ -1,9 +1,10 @@
 
 import { createTraderAssistMsg, createTraderMsg } from "@/app/Ai";
 import { log } from "../../log";
-import { accountToAI, contractsToAI, KLineToAI, orderPendingToAI, orderToAI } from "./bitget/get";
+import { accountToAI, contractsToAI, depthToAI, KLineToAI, orderPendingToAI, orderToAI } from "./bitget/get";
 import toTrade from "./bitget/set";
 import { AItoNews } from "./news";
+import { depth, getAccount, getAccounts } from "@/api/bitget/futures";
 
 export const BITGET_BASE_CONFIG = {
   "symbol": "BTCUSDT",
@@ -21,14 +22,14 @@ export default async function startApp(verify = true) {
       console.log('大于4h未执行，重新执行');
       startApp(false)
     }, 1000 * 60 * 60 * 4);
-    const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
+    const m5 = await KLineToAI({granularity:"1m",...BITGET_BASE_CONFIG,limit:'200'})
     const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
     // const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
     // const w1 = await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG,limit:'10'})
     // const m1 = await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG,limit:'1'})
     const symbolData = {
       kData:{
-        "1H数据":h1,
+        "5m数据":m5,
         "4H数据":h4,
         // "1D数据":d1,
         // "1W数据": w1,
@@ -37,7 +38,8 @@ export default async function startApp(verify = true) {
       order:await orderToAI(),
       account:await accountToAI(),
       pending:await orderPendingToAI(),
-      contract:await contractsToAI({...BITGET_BASE_CONFIG})
+      contract:await contractsToAI({...BITGET_BASE_CONFIG}),
+      depth:await depthToAI({...BITGET_BASE_CONFIG}),
     }
     if (verify && symbolData.account && symbolData.order && +symbolData.account[0].总可用 < 2 && symbolData.order?.length > 0) {
       doing = false
@@ -54,12 +56,13 @@ export default async function startApp(verify = true) {
       "当前账户": symbolData.account,
       "k线数据": symbolData.kData,
       "合约信息": symbolData.contract,
+      "合并深度信息": symbolData.depth,
       "团队":{
         // "最近热门新闻查询结果": news,
         // "趋势分析员的分析结果": assist,
       }
     }
-    log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
+    log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏","合并深度信息":"隐藏"}))
     const aiRes = await createTraderMsg(JSON.stringify(inData))
     await toTrade(aiRes)
     doing = false

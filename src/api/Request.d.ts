@@ -24,7 +24,8 @@ interface AIRes  {
   "deal"?:Deal,
   leverage?:SetAverage, // 杠杆倍数
   close?:CloseOrder // 平仓
-  cancelOrder?:CancelOrder
+  cancelOrder?:CancelOrder, // 取消订单
+  modifyOrder?:ModifyOrder, // 修改订单
 }
 
 interface Deal { 
@@ -56,6 +57,17 @@ interface CancelOrder {
   marginCoin?: string;
   orderId?:string;
   clientOid?:string;
+}
+interface ModifyOrder {
+  symbol: string;
+  marginCoin?: string;
+  orderId?:string;
+  clientOid?:string;
+  newClientOid:string;
+  newSize?:string;
+  newPrice?:string;
+  newPresetStopSurplusPrice?:string;
+  newPresetStopLossPrice?:string;
 }
 
 interface ContractType {

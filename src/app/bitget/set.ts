@@ -1,5 +1,5 @@
 import { getContext } from "@/utils/config";
-import { cancelOrder, closeOrder, getAccount, getKlineFutures, getOrders, orderPending, setAverage, toOrder } from "@/api/bitget/futures";
+import { cancelOrder, closeOrder, modifyOrder, setAverage, toOrder } from "@/api/bitget/futures";
 import fs from 'fs'
 import { srcPath } from "@/index";
 import { URL2ITEM, URL2ITEMKEY } from "./enums";
@@ -53,6 +53,10 @@ export default async function toTrade(aiRes: string | null, reTryUrl?: URL2ITEMK
       }
       if (item?.close) {
         const res = await closeOrder(item.close)
+        if (res.code != '00000') Promise.reject(res)
+      }
+      if (item?.modifyOrder) {
+        const res = await modifyOrder(item.modifyOrder)
         if (res.code != '00000') Promise.reject(res)
       }
     }

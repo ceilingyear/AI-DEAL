@@ -177,3 +177,12 @@ interface Source {
   id: string;
   name: string;
 }
+
+interface Depth {
+  asks: number[][];
+  bids: number[][];
+  ts: string;
+  scale: string;
+  precision: string;
+  isMaxPrecision: string;
+}

@@ -16,7 +16,7 @@ function header({ method, requestPath, data }: { method: 'GET' | 'POST', request
     "Content-Type": "application/json",
     'ACCESS-KEY': bitgetConfig.APIKEY,
     'ACCESS-SIGN': signString,
-    'ACCESS-TIMESTAMP':timestamp,
+    'ACCESS-TIMESTAMP': timestamp,
     'ACCESS-PASSPHRASE': bitgetConfig.PASSPHRASE,
     locale: 'zh-CN',
     // paptrading: "1"
@@ -37,16 +37,30 @@ export function toOrder(data: Deal) {
 }
 // 获取全部合约仓位信息
 export function getOrders() {
-  const data = { productType,}
+  const data = { productType, }
   return get<RequestType<MyOrders[]>>("/api/v2/mix/position/all-position", data, {
     headers: header({ method: 'GET', requestPath: '/api/v2/mix/position/all-position', data }),
   });
 }
 // 获取账户信息列表
-export function getAccount() {
+export function getAccounts() {
   const data = { productType }
   return get<RequestType<Account[]>>("/api/v2/mix/account/accounts", data, {
     headers: header({ method: 'GET', requestPath: '/api/v2/mix/account/accounts', data }),
+  });
+}
+// 合并深度接口
+export function depth(p: { symbol: string }) {
+  const data = { productType, precision: "scale1", ...p }
+  return get<RequestType<Depth>>("/api/v2/mix/market/merge-depth", data, {
+    headers: header({ method: 'GET', requestPath: '/api/v2/mix/market/merge-depth', data }),
+  });
+}
+// 获取单个交易对账户信息
+export function getAccount(p: { symbol: string }) {
+  const data = { productType, marginCoin, ...p }
+  return get<RequestType<Account[]>>("/api/v2/mix/account/account", data, {
+    headers: header({ method: 'GET', requestPath: '/api/v2/mix/account/account', data }),
   });
 }
 // 调整杠杆倍数
@@ -63,19 +77,25 @@ export function closeOrder(data: CloseOrder) {
 }
 // 当前委托
 export function orderPending() {
-  return get<RequestType<{entrustedList:OrderPending[]}>>("/api/v2/mix/order/orders-pending", {productType}, {
-    headers: header({ method: 'GET', requestPath: '/api/v2/mix/order/orders-pending', data: {productType} }),
+  return get<RequestType<{ entrustedList: OrderPending[] }>>("/api/v2/mix/order/orders-pending", { productType }, {
+    headers: header({ method: 'GET', requestPath: '/api/v2/mix/order/orders-pending', data: { productType } }),
   });
 }
 // 取消委托
-export function cancelOrder(data:CancelOrder) {
-  return post<RequestType<any>>("/api/v2/mix/order/cancel-order", {productType,...data}, {
-    headers: header({ method: 'POST', requestPath: '/api/v2/mix/order/cancel-order', data: {productType, ...data} }),
+export function cancelOrder(data: CancelOrder) {
+  return post<RequestType<any>>("/api/v2/mix/order/cancel-order", { productType, ...data }, {
+    headers: header({ method: 'POST', requestPath: '/api/v2/mix/order/cancel-order', data: { productType, ...data } }),
   });
 }
 // 获取合约信息
-export function contracts(data:{symbol:string}) {
-  return get<RequestType<ContractType[]>>("/api/v2/mix/market/contracts", {productType,...data}, {
-    headers: header({ method: 'GET', requestPath: '/api/v2/mix/market/contracts', data: {productType, ...data} }),
+export function contracts(data: { symbol: string }) {
+  return get<RequestType<ContractType[]>>("/api/v2/mix/market/contracts", { productType, ...data }, {
+    headers: header({ method: 'GET', requestPath: '/api/v2/mix/market/contracts', data: { productType, ...data } }),
+  });
+}
+// 修改订单
+export function modifyOrder(data: ModifyOrder) {
+  return post<RequestType<ContractType[]>>("/api/v2/mix/order/modify-order", { productType, ...data }, {
+    headers: header({ method: 'POST', requestPath: '/api/v2/mix/order/modify-order', data: { productType, ...data } }),
   });
 }
