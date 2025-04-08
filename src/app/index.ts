@@ -23,14 +23,14 @@ export default async function startApp(verify = true) {
     }, 1000 * 60 * 60 * 4);
     const h1 = await KLineToAI({granularity:"1H",...BITGET_BASE_CONFIG})
     const h4 =  await KLineToAI({granularity:"4H",...BITGET_BASE_CONFIG})
-    const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
+    // const d1 =  await KLineToAI({granularity:"1D",...BITGET_BASE_CONFIG})
     // const w1 = await KLineToAI({granularity:"1W",...BITGET_BASE_CONFIG,limit:'10'})
     // const m1 = await KLineToAI({granularity:"1M",...BITGET_BASE_CONFIG,limit:'1'})
     const symbolData = {
       kData:{
         "1H数据":h1,
         "4H数据":h4,
-        "1D数据":d1,
+        // "1D数据":d1,
         // "1W数据": w1,
         // "1M数据": m1,
       },
@@ -43,9 +43,9 @@ export default async function startApp(verify = true) {
       doing = false
       return log('余额不足2U，停止继续请求\n'+JSON.stringify({...symbolData,"kData":"隐藏"}))
     }
-    const assist = await createTraderAssistMsg(JSON.stringify({
-      "K线数据": symbolData.kData,
-    }))
+    // const assist = await createTraderAssistMsg(JSON.stringify({
+    //   "K线数据": symbolData.kData,
+    // }))
     // const news = await AItoNews()
     const inData = {
       "当前数据交易对": BITGET_BASE_CONFIG.symbol,
@@ -56,7 +56,7 @@ export default async function startApp(verify = true) {
       "合约信息": symbolData.contract,
       "团队":{
         // "最近热门新闻查询结果": news,
-        "趋势分析员的分析结果": assist,
+        // "趋势分析员的分析结果": assist,
       }
     }
     log("输入数据：\n"+JSON.stringify({...inData,"k线数据":"隐藏","团队":"隐藏"}))
